@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d4e6b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="حقانی کھاتہ">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="description" content="حقانی کمپوزنگ اینڈ سٹیشنری کا کھاتہ — آمدن، خرچ اور بقایا جات کا حساب۔">
+<title>حقانی کمپوزنگ اینڈ سٹیشنری</title>
+<style>
+:root{--bg:#f3f5f7;--card:#fff;--ink:#16263a;--mute:#5d6b7b;--line:#dde3e9;--brand:#1d4e6b;--on-brand:#fff;--in:#1e7a52;--out:#b3402f;--due:#a8620a;--soft:#e8eff4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1720;--card:#18232f;--ink:#e6edf3;--mute:#9fb0c0;--line:#2a3a4a;--brand:#5aa9d1;--on-brand:#0b1620;--in:#4fc08d;--out:#f08a78;--due:#e8a64d;--soft:#1f2f3d}}
+:root[data-theme="dark"]{--bg:#0f1720;--card:#18232f;--ink:#e6edf3;--mute:#9fb0c0;--line:#2a3a4a;--brand:#5aa9d1;--on-brand:#0b1620;--in:#4fc08d;--out:#f08a78;--due:#e8a64d;--soft:#1f2f3d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Nastaliq Urdu","Jameel Noori Nastaleeq","Noto Naskh Arabic","Segoe UI",Tahoma,sans-serif;font-size:17px;line-height:1.8}
+.wrap{max-width:760px;margin:0 auto;padding:12px 14px 60px}
+.hd{background:var(--brand);color:var(--on-brand);margin:-12px -14px 10px;padding:18px 18px 14px;border-radius:0 0 20px 20px;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+h1{font-size:23px;margin:0 0 2px;line-height:1.7}
+.sub{color:inherit;opacity:.85;margin:0;font-size:14px}
+.mh,.tb td,.stat b{font-variant-numeric:tabular-nums}
+nav{display:flex;gap:6px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5}
+nav button{flex:1;padding:8px 2px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px;font-weight:600;border-radius:12px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+nav button.on{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{background:var(--soft);border-radius:10px;padding:8px 12px;border-inline-start:4px solid var(--brand)}
+.stat small{display:block;color:var(--mute);font-size:14px;line-height:1.4}
+.stat b{font-size:20px}
+.in{color:var(--in)}.out{color:var(--out)}.due{color:var(--due)}
+label{display:block;font-size:14px;color:var(--mute);margin:8px 0 2px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:90px}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.btn{padding:9px 14px;border:0;border-radius:9px;background:var(--brand);color:var(--on-brand);font:inherit;font-weight:700;cursor:pointer}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn.wa{background:#1e7a52;color:#fff}
+.btn.sm{padding:3px 10px;font-size:14px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .meta{color:var(--mute);font-size:14px;line-height:1.5}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{display:inline-block;padding:0 8px;border-radius:6px;font-size:13px;background:var(--soft)}
+.empty{color:var(--mute);text-align:center;padding:16px}
+.hide{display:none}
+.note{font-size:14px;color:var(--mute);background:var(--soft);padding:8px 12px;border-radius:8px}
+.scroll{overflow-x:auto}
+.mh{font-weight:700;background:var(--soft);padding:2px 10px;border-radius:8px;margin-top:10px}
+.tb{width:100%;border-collapse:collapse;font-size:15px}.tb th,.tb td{border-bottom:1px solid var(--line);padding:4px 6px;text-align:right;white-space:nowrap}.tb th{color:var(--mute);font-weight:600;background:var(--soft)}.tb tr:last-child td{border-bottom:0}
+#pr{display:none;color:#000;background:#fff}
+#pr table{width:100%;border-collapse:collapse;margin:8px 0}#pr th,#pr td{border:1px solid #888;padding:4px 8px;text-align:right}#pr .rc{max-width:400px;margin:0 auto}
+@media print{body{background:#fff;color:#000}.wrap{display:none}#pr{display:block}}
+
+/* ---- professional refresh ---- */
+body{font-size:16px;-webkit-tap-highlight-color:transparent}
+.wrap{padding:0 14px 110px}
+.hd{margin:0 -14px 12px;padding:22px 18px 18px;border-radius:0 0 26px 26px;background:linear-gradient(135deg,var(--brand),#2f7ea5);position:relative}
+:root[data-theme="dark"] .hd,:root:not([data-theme="light"]) .hd{}
+h1{font-size:22px;font-weight:700;letter-spacing:.2px}
+.sub{font-size:13px}
+nav{position:fixed;inset:auto 0 0 0;top:auto;bottom:0;margin:0;gap:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.08);z-index:20}
+nav button{display:flex;flex-direction:column;align-items:center;gap:0;border:0;background:transparent;box-shadow:none;border-radius:12px;font-size:12.5px;font-weight:600;color:var(--mute);line-height:1.5;padding:4px 2px}
+nav button .ic{font-size:21px;line-height:1.3}
+nav button.on{background:var(--soft);color:var(--brand)}
+.card{border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(20,40,60,.07)}
+.card>b:first-child{font-size:17px}
+.stat{border-radius:12px;padding:10px 12px}
+.stat b{font-size:21px;font-weight:700}
+.btn{border-radius:11px;padding:10px 16px;transition:transform .08s,opacity .15s}
+.btn:active{transform:scale(.96);opacity:.9}
+input,select,textarea{border-radius:10px;padding:10px 12px;font-size:16px;min-height:44px}
+.dts select{text-align:center;padding-inline:4px}
+.dts label{text-align:center}
+.mh{border-radius:10px;padding:4px 12px}
+.item{padding:11px 0}
+.tag{padding:1px 9px;border-radius:20px;font-weight:600}
+.tag.due{color:var(--due)}
+.tb th{position:sticky;top:0}
+.tb tr:nth-child(even) td{background:rgba(127,127,127,.05)}
+.sec{font-size:13px;color:var(--mute);margin:14px 4px 0;font-weight:700}
+#toast{position:fixed;inset:auto 16px calc(84px + env(safe-area-inset-bottom,0px)) 16px;background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:12px;text-align:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+#toast.show{opacity:.95}
+#thx{display:none}#thx.show{display:flex;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:16px}
+.thx-b{background:var(--card);color:var(--ink);border-radius:18px;padding:20px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+@media print{nav,#toast,.hd,#thx{display:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hd"><h1 id="title">حقانی کمپوزنگ اینڈ سٹیشنری</h1>
+<p class="sub">روزنامچہ · کسٹمر کھاتہ · ماہانہ حساب · رپورٹس</p></header>
+<div id="inst" style="margin-bottom:6px"><button class="btn alt sm" data-act="inst">📱 موبائل میں انسٹال کریں</button><div id="ihelp" class="note hide" style="margin-top:8px"></div></div>
+<nav id="nav"></nav>
+<div id="view"></div>
+</div>
+<div id="toast" role="status"></div>
+<div id="pr"></div>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+</script>
+<script>
+(function(){
+var KEY="dukaan-khata-v1",TYPES={in:"آمد (نقد)",out:"خرچ",credit:"ادھار دیا",pay:"وصولی"};
+var S={shop:"حقانی کمپوزنگ اینڈ سٹیشنری",days:7,ep:"03304546248",epOn:true,tpl:"السلام علیکم {name} صاحب،\n{shop} کی طرف سے یاد دہانی: آپ کے ذمے {balance} روپے باقی ہیں۔ براہِ مہربانی جلد ادا فرما دیں۔ شکریہ۔",customers:[],entries:[],cats:["سٹیشنری","فوٹو سٹیٹ","کمپوزنگ","پرنٹنگ","دیگر"]};
+try{var raw=localStorage.getItem(KEY);if(raw){S=Object.assign(S,JSON.parse(raw))}}catch(e){}
+if(S.shop==="کھاتہ حقانی"){S.shop="حقانی کمپوزنگ اینڈ سٹیشنری"}
+var tab="j",date=today(),mon=today().slice(0,7),sel=null,queue=[],qi=0,v=document.getElementById("view");
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function toast(m){var t=document.getElementById("toast");if(!t)return;t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove("show")},1800)}
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function p2(n){return String(n).padStart(2,"0")}
+function fd(s){var p=String(s||"").split("-");return p.length===3?"\u2066"+p[2]+"/"+p[1]+"/"+p[0]+"\u2069":String(s||"")}
+function ld(s){var p=String(s||"").split("-");return p.length===3?"\u2066"+(+p[2])+" "+MN[+p[1]-1]+" "+p[0]+"\u2069":""}
+function shiftD(s,n){var p=s.split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]+n);return dt.getFullYear()+"-"+p2(dt.getMonth()+1)+"-"+p2(dt.getDate())}
+var WD=["اتوار","پیر","منگل","بدھ","جمعرات","جمعہ","ہفتہ"];
+function yrOpts(y,sel){var h="",i;for(i=y-6;i<=y+3;i++)h+='<option value="'+i+'"'+(i===sel?' selected':'')+'>'+i+'</option>';return h}
+function mOpts(sel){return MN.map(function(n,k){return'<option value="'+(k+1)+'"'+(k+1===sel?' selected':'')+'>'+n+'</option>'}).join("")}
+function dsel(iso){var p=iso.split("-"),y=+p[0],m=+p[1],d=+p[2],h="",i;for(i=1;i<=31;i++)h+='<option value="'+i+'"'+(i===d?' selected':'')+'>'+i+'</option>';return'<div class="row dts" dir="ltr"><div><label for="pd">دن / Day</label><select id="pd" data-dp>'+h+'</select></div><div><label for="pm">مہینہ / Month</label><select id="pm" data-dp>'+mOpts(m)+'</select></div><div><label for="py">سال / Year</label><select id="py" data-dp>'+yrOpts(new Date().getFullYear(),y)+'</select></div></div>'}
+function msel(){var p=mon.split("-");return'<div class="row dts" dir="ltr"><select id="mm" aria-label="مہینہ">'+mOpts(+p[1])+'</select><select id="my" aria-label="سال">'+yrOpts(new Date().getFullYear(),+p[0])+'</select></div>'}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function fmt(n){return Number(n).toLocaleString("en-PK")}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function catOpts(cur){return'<option value="">— بغیر شعبہ —</option>'+S.cats.map(function(k){return'<option value="'+esc(k)+'"'+(k===cur?' selected':'')+'>'+esc(k)+'</option>'}).join("")}
+function isSale(e){return e.type==="in"||e.type==="credit"}
+function catData(es){var m={},tot=0,names=[];es.forEach(function(e){if(!isSale(e))return;var k=e.cat||"بغیر شعبہ";if(!m[k]){m[k]={n:k,cash:0,cr:0,cnt:0};names.push(k)}if(e.type==="in")m[k].cash+=e.amt;else m[k].cr+=e.amt;m[k].cnt++;tot+=e.amt});return{rows:names.map(function(k){return m[k]}).sort(function(a,b){return(b.cash+b.cr)-(a.cash+a.cr)}),tot:tot}}
+function catBlock(es,pr){var c=catData(es);if(!c.rows.length)return'<div class="empty">اس مدت میں کوئی بِکری درج نہیں (آمد یا ادھار کے ساتھ شعبہ چنیں)</div>';
+ var t='<table class="'+(pr?"":"tb")+'"><tr><th>شعبہ</th><th>نقد</th><th>ادھار</th><th>کل بِکری</th><th>حصہ</th></tr>'+c.rows.map(function(x){var s=x.cash+x.cr;return'<tr><td>'+esc(x.n)+'</td><td>'+fmt(x.cash)+'</td><td>'+fmt(x.cr)+'</td><td><b>'+fmt(s)+'</b></td><td>'+Math.round(s*100/c.tot)+'%</td></tr>'}).join("")+'<tr><td><b>کل</b></td><td></td><td></td><td><b>'+fmt(c.tot)+'</b></td><td></td></tr></table>';
+ if(pr)return t;
+ return'<div class="scroll">'+t+'</div>'+c.rows.map(function(x){var s=x.cash+x.cr;return'<div style="margin-top:8px"><div class="meta">'+esc(x.n)+' — '+fmt(s)+'</div><div style="background:var(--soft);border-radius:6px"><div style="width:'+Math.max(2,Math.round(s*100/c.tot))+'%;background:var(--brand);height:8px;border-radius:6px"></div></div></div>'}).join("")}
+function itemNames(){var s={},a=[];S.entries.forEach(function(e){if(e.item&&!s[e.item]){s[e.item]=1;a.push(e.item)}});return a}
+function itemData(es){var m={},a=[];es.forEach(function(e){if(!e.item||e.type==="pay")return;var x=m[e.item];if(!x){x=m[e.item]={n:e.item,bq:0,ba:0,sq:0,sa:0};a.push(x)}if(e.type==="out"){x.bq+=e.qty||0;x.ba+=e.amt}else{x.sq+=e.qty||0;x.sa+=e.amt}});return a}
+function stockAt(n,upto){var q=0;S.entries.forEach(function(e){if(e.item===n&&e.type!=="pay"&&e.date<upto)q+=(e.type==="out"?1:-1)*(e.qty||0)});return q}
+function shiftM(m,d){var p=m.split("-"),dt=new Date(+p[0],+p[1]-1+d,1);return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")}
+function itemBlock(es,pr){var a=itemData(es);if(!a.length)return'<div class="empty">اس مہینے کسی چیز کی خرید/بِکری درج نہیں (اندراج میں "چیز کا نام" اور مقدار لکھیں)</div>';var up=shiftM(mon,1)+"-01";var t='<table class="'+(pr?"":"tb")+'"><tr><th>چیز</th><th>خریدا</th><th>خرید کی رقم</th><th>بیچا</th><th>بِکری کی رقم</th><th>ماہ کے آخر میں مال باقی</th></tr>'+a.map(function(x){return'<tr><td>'+esc(x.n)+'</td><td>'+fmt(x.bq)+'</td><td>'+fmt(x.ba)+'</td><td>'+fmt(x.sq)+'</td><td>'+fmt(x.sa)+'</td><td><b>'+fmt(stockAt(x.n,up))+'</b></td></tr>'}).join("")+'</table>';return pr?t:'<div class="scroll">'+t+'</div>'}
+function cust(id){return S.customers.filter(function(c){return c.id===id})[0]}
+function bal(id){var b=0;S.entries.forEach(function(e){if(e.cid===id){if(e.type==="credit")b+=e.amt;if(e.type==="pay")b-=e.amt}});return b}
+function phone(p){var d=String(p||"").replace(/\D/g,"");if(d.indexOf("00")===0)d=d.slice(2);else if(d.charAt(0)==="0")d="92"+d.slice(1);return d}
+function msg(c,tpl){return (tpl||S.tpl).replace(/\{name\}/g,c.name).replace(/\{shop\}/g,S.shop).replace(/\{balance\}/g,fmt(bal(c.id)))+epLine()}
+function epLine(){var n=String(S.ep||"").trim();return(S.epOn!==false&&n)?"\n\nاگر آپ کے پاس ایزی پیسہ کی سہولت موجود ہو تو میرے ایزی پیسہ نمبر "+n+" پر رقم بھیجیں۔":""}
+function waUrl(c,text){return"https://wa.me/"+phone(c.phone)+"?text="+encodeURIComponent(text)}
+function smsUrl(c,text){return"sms:+"+phone(c.phone)+"?body="+encodeURIComponent(text)}
+function entryMsg(e){var c=cust(e.cid);if(!c)return"";
+ if(e.type==="credit")return"السلام علیکم "+c.name+" صاحب،\n"+S.shop+" سے "+fmt(e.amt)+" روپے کا ادھار درج ہوا۔ کل باقی: "+fmt(bal(c.id))+" روپے۔ شکریہ۔"+epLine();
+ return"السلام علیکم "+c.name+" صاحب،\n"+thxLine(e)+(bal(c.id)>0?epLine():"")+"\n"+S.shop}
+function thxLine(e){var c=cust(e.cid),b=bal(c.id);return b<=0?"آپ نے تمام رقم ادا کر دی ہے۔ بہت بہت شکریہ!":"آپ کا بہت شکریہ! آپ نے "+fmt(e.amt)+" روپے ادا کیے اور "+fmt(b)+" روپے باقی رہ گئے ہیں۔"}
+function daysSince(t){return t?Math.floor((Date.now()-t)/864e5):9999}
+function isDue(c){return bal(c.id)>0&&daysSince(c.last)>=S.days}
+function open(u){window.open(u,"_blank","noopener")}
+var thxE=null;
+function thanks(e){thxE=e;var c=cust(e.cid),b=bal(c.id),full=b<=0,m=document.getElementById("thx");if(!m){m=document.createElement("div");m.id="thx";document.body.appendChild(m)}
+ m.innerHTML='<div class="thx-b" role="dialog" aria-modal="true"><div style="font-size:42px;text-align:center">'+(full?"🎉":"🙏")+'</div><h3 style="text-align:center;margin:6px 0">'+esc(c.name)+' صاحب کا شکریہ</h3><p style="text-align:center;line-height:1.9;margin:8px 0">'+esc(thxLine(e))+'</p><div class="grid"><div class="stat"><small>ادا کی گئی رقم</small><b class="in">'+fmt(e.amt)+'</b></div><div class="stat"><small>باقی رقم</small><b class="'+(full?"in":"due")+'">'+fmt(Math.max(b,0))+'</b></div></div><div class="acts" style="justify-content:center;margin-top:12px">'+(c.phone?'<button class="btn wa sm" data-act="thxW">واٹس ایپ پر بھیجیں</button><button class="btn alt sm" data-act="thxS">ایس ایم ایس</button>':'')+'<button class="btn alt sm" data-act="thxX">بند کریں</button></div></div>';m.className="show"}
+function printHtml(h){document.getElementById("pr").innerHTML=h;window.print()}
+function head(){return'<h2 style="text-align:center;margin:0">'+esc(S.shop)+'</h2><hr style="border:0;border-top:2px solid #000;margin:6px 0 10px">'}
+function prE(e){var c=cust(e.cid);printHtml('<div class="rc">'+head()+'<p style="text-align:center;margin:0">رسید نمبر: '+e.id.slice(-5).toUpperCase()+'</p><table><tr><th>تاریخ</th><td>'+fd(e.date)+'</td></tr><tr><th>قسم</th><td>'+TYPES[e.type]+'</td></tr>'+(c?'<tr><th>کسٹمر</th><td>'+esc(c.name)+'</td></tr>':'')+'<tr><th>تفصیل</th><td>'+esc(e.note)+'</td></tr><tr><th>رقم</th><td><b>'+fmt(e.amt)+' روپے</b></td></tr>'+(c?'<tr><th>موجودہ باقی</th><td>'+fmt(bal(c.id))+' روپے</td></tr>':'')+'</table><p style="text-align:center">'+(c&&e.type==="pay"?esc(thxLine(e)):"شکریہ")+'</p></div>')}
+function prC(c){var es=S.entries.filter(function(e){return e.cid===c.id});printHtml(head()+'<p>کھاتہ: <b>'+esc(c.name)+'</b> '+esc(c.phone||'')+'</p><table><tr><th>تاریخ</th><th>قسم</th><th>تفصیل</th><th>رقم</th></tr>'+es.map(function(e){return'<tr><td>'+fd(e.date)+'</td><td>'+TYPES[e.type]+'</td><td>'+esc(e.note)+'</td><td>'+fmt(e.amt)+'</td></tr>'}).join('')+'</table><p><b>کل باقی رقم: '+fmt(bal(c.id))+' روپے</b></p><p>پرنٹ کی تاریخ: '+fd(today())+'</p>')}
+function prD(){var es=S.entries.filter(function(e){return e.date===date}),i=0,o=0,cr=0;es.forEach(function(e){if(e.type==="in"||e.type==="pay")i+=e.amt;if(e.type==="out")o+=e.amt;if(e.type==="credit")cr+=e.amt});printHtml(head()+'<p>روزنامچہ: <b>'+WD[new Date(date+"T00:00:00").getDay()]+"، "+fd(date)+'</b></p><table><tr><th>قسم</th><th>تفصیل</th><th>کسٹمر</th><th>رقم</th></tr>'+es.map(function(e){var c=cust(e.cid);return'<tr><td>'+TYPES[e.type]+'</td><td>'+esc(e.note)+'</td><td>'+(c?esc(c.name):'')+'</td><td>'+fmt(e.amt)+'</td></tr>'}).join('')+'</table><p>کل آمد: '+fmt(i)+' | کل خرچ: '+fmt(o)+' | بچت: <b>'+fmt(i-o)+'</b> | ادھار دیا: '+fmt(cr)+'</p>')}
+
+var tabs=[["j","📒 روزنامچہ"],["mo","📊 ماہانہ حساب"],["c","👥 کسٹمر"],["m","⚙️ ترتیبات"]];
+function nav(){document.getElementById("nav").innerHTML=tabs.map(function(t){var i=t[1].indexOf(" ");return'<button data-tab="'+t[0]+'" class="'+(tab===t[0]?"on":"")+'"><span class="ic">'+t[1].slice(0,i)+'</span><span>'+t[1].slice(i+1)+"</span></button>"}).join("");window.scrollTo(0,0)}
+
+function viewJ(){
+ var es=S.entries.filter(function(e){return e.date===date});
+ var cin=0,out=0,cr=0;es.forEach(function(e){if(e.type==="in"||e.type==="pay")cin+=e.amt;if(e.type==="out")out+=e.amt;if(e.type==="credit")cr+=e.amt});
+ var opts=S.customers.map(function(c){return'<option value="'+c.id+'">'+esc(c.name)+"</option>"}).join("");
+ return'<div class="card"><div class="mh" style="text-align:center;margin-top:0">'+WD[new Date(date+"T00:00:00").getDay()]+"، "+ld(date)+'<div class="meta" style="font-weight:400">'+fd(date)+'</div></div><div class="row" style="margin:8px 0"><button class="btn alt" data-act="dPrev">→ پچھلا دن</button><button class="btn alt" data-act="dToday">آج</button><button class="btn alt" data-act="dNext">اگلا دن ←</button></div>'+dsel(date)+'<div class="grid" style="margin-top:10px"><div class="stat"><small>کل آمد (نقد + وصولی)</small><b class="in">'+fmt(cin)+'</b></div><div class="stat"><small>کل خرچ</small><b class="out">'+fmt(out)+'</b></div><div class="stat"><small>آج کی بچت</small><b>'+fmt(cin-out)+'</b></div><div class="stat"><small>ادھار دیا</small><b class="due">'+fmt(cr)+"</b></div></div></div>"+
+ '<div class="card"><b>نیا اندراج</b><div class="row"><div><label for="t">قسم</label><select id="t">'+Object.keys(TYPES).map(function(k){return'<option value="'+k+'">'+TYPES[k]+"</option>"}).join("")+'</select></div><div><label for="a">رقم (روپے)</label><input id="a" type="number" min="0" inputmode="numeric"></div></div>'+
+ '<div id="cw" class="hide"><label for="ci">کسٹمر</label><select id="ci"><option value="">— چنیں —</option>'+opts+"</select></div>"+'<div id="catw"><label for="ct">شعبہ (کس چیز کی بِکری؟)</label><select id="ct">'+catOpts("")+'</select></div>'+'<div id="itw"><div class="row"><div><label for="it">چیز کا نام (مثلاً کاغذ)</label><input id="it" list="itl" placeholder="کاغذ، پین، فائل..."><datalist id="itl">'+itemNames().map(function(k){return'<option value="'+esc(k)+'">'}).join("")+'</datalist></div><div><label for="q">مقدار (عدد / رم)</label><input id="q" type="number" min="0" step="any" inputmode="decimal"></div></div></div>'+
+ '<label for="n">تفصیل</label><input id="n" placeholder="مثلاً: چاول، کرایہ، بجلی بل"><div style="margin-top:10px"><button class="btn" data-act="addE">محفوظ کریں</button></div><div id="err" class="out"></div></div>'+
+ '<div class="card"><b>اس دن کا روزنامچہ</b> <button class="btn alt sm" data-act="prD">پرنٹ</button>'+(es.length?es.slice().reverse().map(function(e){var c=cust(e.cid);
+  return'<div class="item"><div><span class="tag">'+TYPES[e.type]+"</span> "+esc(e.note)+(e.item?' <b>'+esc(e.item)+'</b>'+(e.qty?' × '+e.qty:""):"")+'<div class="meta">'+(c?esc(c.name):"")+'</div>'+'<div class="acts">'+(isSale(e)?'<select data-ce="'+e.id+'" style="width:auto;padding:2px 8px;font-size:14px" aria-label="شعبہ">'+catOpts(e.cat||"")+'</select>':"")+((c&&c.phone&&(e.type==="credit"||e.type==="pay"))?'<button class="btn wa sm" data-act="sendE" data-id="'+e.id+'">واٹس ایپ رسید</button>':"")+'<button class="btn alt sm" data-act="prE" data-id="'+e.id+'">پرنٹ رسید</button></div>'+'</div><div><b class="'+(e.type==="out"?"out":e.type==="credit"?"due":"in")+'">'+fmt(e.amt)+'</b> <button class="btn alt sm" data-act="delE" data-id="'+e.id+'" aria-label="حذف">حذف</button></div></div>'}).join(""):'<div class="empty">اس تاریخ کا کوئی اندراج نہیں</div>')+"</div>"}
+
+function viewC(){
+ if(sel&&cust(sel)){var c=cust(sel),es=S.entries.filter(function(e){return e.cid===c.id}).reverse(),b=bal(c.id);
+  return'<div class="card"><button class="btn alt sm" data-act="back">← واپس</button><h2 style="margin:6px 0 0">'+esc(c.name)+'</h2><div class="meta">'+esc(c.phone||"فون نمبر نہیں")+'</div><div class="stat" style="margin-top:8px"><small>باقی رقم</small><b class="'+(b>0?"due":"in")+'">'+fmt(b)+' روپے</b></div>'+
+  (c.phone&&b>0?'<div class="acts"><button class="btn wa" data-act="wa" data-id="'+c.id+'">واٹس ایپ یاد دہانی</button><button class="btn alt" data-act="sms" data-id="'+c.id+'">SMS</button></div>':"")+
+  '<div class="acts"><button class="btn alt sm" data-act="prC" data-id="'+c.id+'">کھاتہ پرنٹ کریں</button><button class="btn alt sm" data-act="delC" data-id="'+c.id+'">کسٹمر حذف کریں</button></div></div><div class="card"><b>کھاتہ</b>'+(es.length?ledgerM(es):'<div class="empty">ابھی کوئی لین دین نہیں</div>')+"</div>"}
+ var list=S.customers.slice().sort(function(a,b){return bal(b.id)-bal(a.id)}),tot=0;list.forEach(function(c){tot+=Math.max(0,bal(c.id))});
+ return'<div class="card"><div class="stat"><small>کل وصول طلب رقم</small><b class="due">'+fmt(tot)+' روپے</b></div></div><div class="card"><b>نیا کسٹمر</b><div class="row"><div><label for="cn">نام</label><input id="cn"></div><div><label for="cp">فون (03xx...)</label><input id="cp" type="tel" inputmode="tel"></div></div><div style="margin-top:10px"><button class="btn" data-act="addC">شامل کریں</button> <button class="btn alt" data-act="pick">📇 فون کی رابطہ فہرست سے چنیں</button> <button class="btn alt" data-act="vcf">.vcf فائل سے</button><input type="file" id="vf" accept=".vcf,text/vcard,text/x-vcard" class="hide"><div id="cmsg" class="meta"></div></div></div><div class="card"><b>ایک ساتھ کئی کسٹمر شامل کریں</b><p class="meta">فون کی رابطہ فہرست کھول کر نام اور نمبر کاپی کریں اور یہاں پیسٹ کر دیں۔ ہر کسٹمر نئی لائن میں، مثلاً: احمد 0300 1234567</p><textarea id="bt" placeholder="احمد 0300 1234567&#10;بلال 0321 7654321"></textarea><div style="margin-top:10px"><button class="btn" data-act="bulk">سب شامل کریں</button></div></div><div class="card"><b>کسٹمر کی فہرست</b>'+
+ (list.length?list.map(function(c){var b=bal(c.id);return'<div class="item" style="cursor:pointer" data-act="open" data-id="'+c.id+'"><div>'+esc(c.name)+'<div class="meta">'+esc(c.phone||"")+'</div></div><b class="'+(b>0?"due":"in")+'">'+fmt(b)+"</b></div>"}).join(""):'<div class="empty">پہلے کسٹمر شامل کریں</div>')+"</div>"}
+
+var MN=["جنوری","فروری","مارچ","اپریل","مئی","جون","جولائی","اگست","ستمبر","اکتوبر","نومبر","دسمبر"];
+function monthName(m){var p=m.split("-");return MN[+p[1]-1]+" "+"\u2066"+p[0]+"\u2069"}
+function shiftM(m,d){var p=m.split("-"),dt=new Date(+p[0],+p[1]-1+d,1);return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")}
+function balAt(id,before){var b=0;S.entries.forEach(function(e){if(e.cid===id&&e.date<before){if(e.type==="credit")b+=e.amt;if(e.type==="pay")b-=e.amt}});return b}
+function mTot(es){var r={i:0,p:0,o:0,cr:0};es.forEach(function(e){if(e.type==="in")r.i+=e.amt;if(e.type==="pay")r.p+=e.amt;if(e.type==="out")r.o+=e.amt;if(e.type==="credit")r.cr+=e.amt});return r}
+function mData(){var es=S.entries.filter(function(e){return e.date.slice(0,7)===mon}).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0}),st=mon+"-01",rows=[],tc=0;
+ S.customers.forEach(function(c){var o=balAt(c.id,st),cr=0,py=0;es.forEach(function(e){if(e.cid===c.id){if(e.type==="credit")cr+=e.amt;if(e.type==="pay")py+=e.amt}});if(o||cr||py){var cl=o+cr-py;tc+=cl;rows.push({c:c,o:o,cr:cr,py:py,cl:cl})}});
+ return{es:es,r:mTot(es),rows:rows,tc:tc}}
+function mTable(d,cls){return'<table class="'+cls+'"><tr><th>کسٹمر</th><th>پچھلا باقی</th><th>ادھار</th><th>وصولی</th><th>ماہ کے آخر میں باقی</th></tr>'+d.rows.map(function(x){return'<tr><td>'+esc(x.c.name)+'</td><td>'+fmt(x.o)+'</td><td>'+fmt(x.cr)+'</td><td>'+fmt(x.py)+'</td><td><b>'+fmt(x.cl)+'</b></td></tr>'}).join("")+'</table>'}
+function prM(){var d=mData(),r=d.r;printHtml(head()+'<p>ماہانہ حساب: <b>'+monthName(mon)+'</b></p><p>نقد آمد: '+fmt(r.i)+' | وصولی: '+fmt(r.p)+' | خرچ: '+fmt(r.o)+' | بچت: <b>'+fmt(r.i+r.p-r.o)+'</b> | ادھار دیا: '+fmt(r.cr)+'</p>'+'<p><b>شعبہ وار بِکری</b></p>'+catBlock(d.es,1)+'<p><b>چیز وار حساب</b></p>'+itemBlock(d.es,1)+(d.rows.length?'<p><b>کسٹمر کا حساب</b></p>'+mTable(d,""):"")+'<p><b>اندراجات</b></p><table><tr><th>تاریخ</th><th>قسم</th><th>تفصیل</th><th>کسٹمر</th><th>رقم</th></tr>'+d.es.map(function(e){var c=cust(e.cid);return'<tr><td>'+fd(e.date)+'</td><td>'+TYPES[e.type]+'</td><td>'+esc(e.note)+'</td><td>'+(c?esc(c.name):"")+'</td><td>'+fmt(e.amt)+'</td></tr>'}).join("")+'</table><p>پرنٹ کی تاریخ: '+fd(today())+'</p>')}
+function viewMo(){var d=mData(),r=d.r;
+ return'<div class="card"><div class="row" style="align-items:end"><button class="btn alt" data-act="mPrev">→ پچھلا</button><div style="flex:2"><label for="mm">مہینہ اور سال</label>'+msel()+'</div><button class="btn alt" data-act="mNext">اگلا ←</button></div><div class="mh" style="text-align:center">'+monthName(mon)+'</div>'+
+ '<div class="grid" style="margin-top:10px"><div class="stat"><small>نقد آمد</small><b class="in">'+fmt(r.i)+'</b></div><div class="stat"><small>وصولی</small><b class="in">'+fmt(r.p)+'</b></div><div class="stat"><small>کل خرچ</small><b class="out">'+fmt(r.o)+'</b></div><div class="stat"><small>ماہ کی بچت</small><b>'+fmt(r.i+r.p-r.o)+'</b></div><div class="stat"><small>ادھار دیا</small><b class="due">'+fmt(r.cr)+'</b></div><div class="stat"><small>ماہ کے آخر میں کل باقی</small><b class="due">'+fmt(d.tc)+'</b></div></div><div class="acts"><button class="btn alt sm" data-act="prM">اس مہینے کا حساب پرنٹ کریں</button><button class="btn alt sm" data-act="csv">📄 ایکسل ڈاؤن لوڈ</button><span id="bmsg" class="meta"></span></div></div>'+
+ '<div class="card"><b>شعبہ وار بِکری — '+monthName(mon)+'</b><p class="meta">بِکری = نقد آمد + ادھار۔ (وصولی پرانے ادھار کی واپسی ہے، نئی بِکری نہیں، اس لیے شامل نہیں)</p>'+catBlock(d.es)+'</div>'+
+ '<div class="card"><b>چیز وار حساب — '+monthName(mon)+'</b><p class="meta">خرید = "خرچ" کے ساتھ چیز کا نام اور مقدار لکھیں۔ بِکری = "آمد" یا "ادھار" کے ساتھ چیز کا نام اور مقدار لکھیں۔ مثلاً: کاغذ، مقدار 5 رم۔</p>'+itemBlock(d.es)+'</div>'+
+ '<div class="card"><b>کسٹمر کا ماہانہ حساب</b>'+(d.rows.length?'<div class="scroll">'+mTable(d,"tb")+'</div>':'<div class="empty">اس مہینے کسٹمر کا کوئی لین دین نہیں</div>')+'</div>'+
+ '<div class="card"><b>اس مہینے کے اندراجات</b>'+(d.es.length?d.es.map(function(e){var c=cust(e.cid);return'<div class="item"><div><span class="tag">'+TYPES[e.type]+'</span> '+esc(e.note)+(e.item?' <b>'+esc(e.item)+'</b>'+(e.qty?' × '+e.qty:''):'')+'<div class="meta">'+fd(e.date)+(c?' · '+esc(c.name):'')+'</div></div><b class="'+(e.type==="out"?"out":e.type==="credit"?"due":"in")+'">'+fmt(e.amt)+'</b></div>'}).join(""):'<div class="empty">اس مہینے کا کوئی اندراج نہیں</div>')+'</div>'}
+function ledgerM(es){es=es.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});var sm={},cur="",h="";
+ es.forEach(function(e){var m=e.date.slice(0,7);sm[m]=sm[m]||{c:0,p:0};if(e.type==="credit")sm[m].c+=e.amt;if(e.type==="pay")sm[m].p+=e.amt});
+ es.forEach(function(e){var m=e.date.slice(0,7);if(m!==cur){cur=m;h+='<div class="mh">'+monthName(m)+' <span class="meta">ادھار '+fmt(sm[m].c)+' · وصولی '+fmt(sm[m].p)+' · ماہ کے آخر میں باقی '+fmt(balAt(es[0].cid,shiftM(m,1)+"-01"))+'</span></div>'}
+  h+='<div class="item"><div><span class="tag">'+TYPES[e.type]+'</span> '+esc(e.note)+'<div class="meta">'+fd(e.date)+'</div></div><b class="'+(e.type==="pay"?"in":"due")+'">'+(e.type==="pay"?"−":"+")+fmt(e.amt)+'</b></div>'});return h}
+function addPicked(list){var seen={},n=0;S.customers.forEach(function(c){if(c.phone)seen[phone(c.phone)]=1});
+ list.forEach(function(p){var t=String(p.phone||"").trim(),k=phone(t);if(!k||seen[k])return;seen[k]=1;S.customers.push({id:uid(),name:(p.name||"").trim()||t,phone:t,last:0});n++});
+ save();render();var m=document.getElementById("cmsg");if(m)m.textContent=n?(n+" نئے کسٹمر شامل ہو گئے"):"کوئی نیا نمبر شامل نہیں ہوا (نمبر نہیں تھا یا پہلے سے موجود ہے)"}
+function pickContacts(){var m=document.getElementById("cmsg");
+ if(!(navigator.contacts&&navigator.contacts.select)){m.textContent="اس براؤزر میں رابطہ فہرست کی سہولت نہیں ہے (یہ صرف اینڈرائیڈ کے کروم میں چلتی ہے)۔ نیچے والے خانے میں نام اور نمبر پیسٹ کریں، یا .vcf فائل چنیں۔";return}
+ navigator.contacts.select(["name","tel"],{multiple:true}).then(function(r){if(!r||!r.length)return;addPicked(r.map(function(x){return{name:(x.name&&x.name[0])||"",phone:(x.tel&&x.tel[0])||""}}))}).catch(function(){m.textContent="رابطہ فہرست نہیں کھل سکی۔ اجازت دیں، یا ایپ کو براہِ راست کروم میں کھولیں، یا .vcf فائل چنیں۔"})}
+function bmsg(t){var m=document.getElementById("bmsg");if(m)m.textContent=t}
+function dl(name,data,mime,ok){
+ function fb(){try{var bl=new Blob([data],{type:mime}),ak=document.createElement("a");ak.href=URL.createObjectURL(bl);ak.download=name;document.body.appendChild(ak);ak.click();ak.remove();bmsg(ok)}catch(x){bmsg("فائل محفوظ نہیں ہو سکی۔")}}
+ if(!(window.claude&&claude.use)){bmsg("ڈاؤن لوڈ کی سہولت یہاں دستیاب نہیں۔ ایپ کو claude.ai یا کلاڈ ایپ میں براہِ راست کھولیں۔");return}
+ claude.use("downloads").then(function(d){
+  if(!d){bmsg("ڈاؤن لوڈ کی سہولت یہاں دستیاب نہیں۔ ایپ کو claude.ai یا کلاڈ ایپ میں براہِ راست کھولیں۔");return}
+  return d.save({filename:name,data:data}).then(function(){bmsg(ok);toast("✔ فائل محفوظ ہو گئی")})
+ }).catch(function(e){bmsg(e&&e.code==="declined"?"آپ نے منسوخ کر دیا۔":"فائل محفوظ نہیں ہو سکی، دوبارہ کوشش کریں۔ ("+((e&&e.code)||"خرابی")+")")})}
+function backup(){dl("haqqani-khata-backup-"+today()+".json",JSON.stringify(S),"application/json","بیک اپ فائل محفوظ ہو گئی۔ اسے واٹس ایپ یا گوگل ڈرائیو پر بھی رکھ لیں۔")}
+function csvx(){var q=function(x){return'"'+String(x==null?"":x).replace(/"/g,'""')+'"'},r=[["تاریخ","قسم","شعبہ","چیز","مقدار","کسٹمر","تفصیل","رقم"].map(q).join(",")];
+ S.entries.slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0}).forEach(function(e){var c=cust(e.cid);var p=e.date.split("-");r.push([p[2]+"/"+p[1]+"/"+p[0],TYPES[e.type],e.cat||"",e.item||"",e.qty||"",c?c.name:"",e.note||"",e.amt].map(q).join(","))});
+ dl("haqqani-khata-"+today()+".csv","\ufeff"+r.join("\r\n"),"text/csv;charset=utf-8","ایکسل فائل (CSV) محفوظ ہو گئی۔")}
+function readBk(f){var rd=new FileReader();rd.onload=function(){
+ var o;try{o=JSON.parse(String(rd.result))}catch(e){bmsg("یہ فائل درست بیک اپ نہیں ہے۔");return}
+ if(!o||!Array.isArray(o.customers)||!Array.isArray(o.entries)){bmsg("یہ فائل درست بیک اپ نہیں ہے۔");return}
+ if(!confirm("موجودہ ڈیٹا کی جگہ بیک اپ کا ڈیٹا لگا دیا جائے؟ ("+o.customers.length+" کسٹمر، "+o.entries.length+" اندراجات)"))return;
+ S=Object.assign(S,o);save();render();bmsg("ڈیٹا بحال ہو گیا۔")};rd.readAsText(f)}
+function readVcf(f){var rd=new FileReader();rd.onload=function(){var out=[];String(rd.result).split(/BEGIN:VCARD/i).forEach(function(b){var t=b.match(/^TEL[^:\r\n]*:(.+)$/im),n=b.match(/^FN[^:\r\n]*:(.+)$/im);if(t)out.push({name:n?n[1].trim():"",phone:t[1].trim()})});addPicked(out)};rd.readAsText(f)}
+function viewM(){
+ var owing=S.customers.filter(function(c){return bal(c.id)>0&&c.phone}),due=owing.filter(isDue);
+ return'<div class="card"><b>پیغام کی ترتیب</b><label for="sh">دوکان کا نام</label><input id="sh" value="'+esc(S.shop)+'"><label for="tp">پیغام کا مضمون ({name} {balance} {shop} خود بدل جائیں گے)</label><textarea id="tp">'+esc(S.tpl)+'</textarea><label for="dy">ہر کتنے دن بعد یاد دہانی؟</label><input id="dy" type="number" min="1" value="'+S.days+'"><label for="epn">ایزی پیسہ نمبر</label><input id="epn" type="tel" inputmode="tel" value="'+esc(S.ep||"")+'"><label style="display:flex;align-items:center;gap:8px;margin-top:8px"><input id="epon" type="checkbox" style="width:auto"'+(S.epOn!==false?" checked":"")+'> پیغام میں ایزی پیسہ کی سطر شامل کریں</label><div style="margin-top:10px"><button class="btn" data-act="saveS">محفوظ کریں</button></div></div>'+
+ '<div class="card"><b>یاد دہانی کی قطار</b><p class="meta">'+(due.length?due.length+" کسٹمرز کو یاد دہانی کا وقت ہو گیا ہے":"ابھی کسی کو یاد دہانی کی ضرورت نہیں")+'</p>'+
+ (due.length?'<button class="btn wa" data-act="startQ">ترتیب وار بھیجنا شروع کریں</button>':"")+'<div id="qbox"></div>'+
+ '<div style="margin-top:10px">'+(owing.length?owing.map(function(c){return'<div class="item"><div>'+esc(c.name)+(isDue(c)?' <span class="tag due">وقت ہو گیا</span>':"")+'<div class="meta">'+fmt(bal(c.id))+" روپے"+(c.last?" · آخری پیغام "+daysSince(c.last)+" دن پہلے":"")+'</div></div><div class="acts"><button class="btn wa sm" data-act="wa" data-id="'+c.id+'">واٹس ایپ</button><button class="btn alt sm" data-act="sms" data-id="'+c.id+'">SMS</button></div></div>'}).join(""):'<div class="empty">کوئی باقی دار نہیں (یا فون نمبر درج نہیں)</div>')+"</div></div>"+
+ '<div class="card"><b>شعبے (بِکری کی اقسام)</b><p class="meta">اپنی مرضی کے شعبے بنائیں، مثلاً: سٹیشنری، فوٹو سٹیٹ، کمپوزنگ، لیمینیشن، بائنڈنگ۔</p><div class="row"><input id="nc" placeholder="نیا شعبہ" aria-label="نیا شعبہ"><button class="btn" style="flex:0 0 auto" data-act="addCat">شامل کریں</button></div>'+S.cats.map(function(k,i){return'<div class="item"><span>'+esc(k)+'</span><button class="btn alt sm" data-act="delCat" data-id="'+i+'">حذف</button></div>'}).join("")+'</div>'+
+ '<div class="card"><b>💾 بیک اپ اور بحالی</b><p class="meta">اپنا سارا کھاتہ فائل کی شکل میں ڈاؤن لوڈ کر لیں۔ ایپ ڈیلیٹ ہو جائے یا فون بدلے تو یہی فائل واپس لوڈ کر کے سارا ڈیٹا بحال کر لیں۔</p><div class="acts"><button class="btn" data-act="bk">⬇️ بیک اپ ڈاؤن لوڈ کریں</button><button class="btn alt" data-act="rs">⬆️ بیک اپ سے بحال کریں</button><button class="btn alt" data-act="csv">📄 ایکسل (CSV) ڈاؤن لوڈ</button></div><input id="rf" type="file" accept=".json,application/json" class="hide"><p id="bmsg" class="meta"></p></div>'+
+ '<p class="note">نوٹ: واٹس ایپ/SMS ایپ پیغام لکھا لکھایا کھول دیتی ہے، آپ کو صرف "بھیجیں" دبانا ہوتا ہے۔ بغیر کلک خودبخود بھیجنے کے لیے واٹس ایپ بزنس API یا SMS گیٹ وے درکار ہوتا ہے۔ ڈیٹا اسی براؤزر میں محفوظ ہے اور ایپ انٹرنیٹ کے بغیر چلتی ہے (صرف واٹس ایپ/SMS کے لیے انٹرنیٹ یا SIM چاہیے)۔</p>'}
+
+function render(){nav();v.innerHTML=tab==="j"?viewJ():tab==="mo"?viewMo():tab==="c"?viewC():viewM()}
+function qShow(){var b=document.getElementById("qbox");if(!b)return;
+ if(qi>=queue.length){b.innerHTML='<p class="in">قطار مکمل ہو گئی۔</p>';return}
+ var c=cust(queue[qi]);b.innerHTML='<div class="stat" style="margin:10px 0"><small>اگلا ('+(qi+1)+"/"+queue.length+')</small><b>'+esc(c.name)+'</b> <button class="btn wa sm" data-act="qSend">واٹس ایپ کھولیں</button> <button class="btn alt sm" data-act="qSkip">چھوڑیں</button></div>'}
+
+document.addEventListener("click",function(ev){
+ var t=ev.target.closest("[data-tab],[data-act]");if(!t)return;
+ if(t.dataset.tab){tab=t.dataset.tab;sel=null;render();return}
+ var a=t.dataset.act,id=t.dataset.id,c;
+ if(a==="addE"){var amt=parseFloat(document.getElementById("a").value),ty=document.getElementById("t").value,ci=document.getElementById("ci").value,er=document.getElementById("err");
+  if(!(amt>0)){er.textContent="رقم درج کریں";return}
+  if((ty==="credit"||ty==="pay")&&!ci){er.textContent="اس قسم کے لیے کسٹمر چنیں";return}
+  var ne={id:uid(),date:date,type:ty,amt:amt,note:document.getElementById("n").value.trim(),cid:ci||null,cat:(ty==="in"||ty==="credit")?document.getElementById("ct").value:"",item:ty==="pay"?"":document.getElementById("it").value.trim(),qty:ty==="pay"?0:(parseFloat(document.getElementById("q").value)||0)};S.entries.push(ne);save();render();toast("✔ اندراج محفوظ ہو گیا");if(ty==="pay"&&cust(ci))thanks(ne)}
+ else if(a==="thxX"){var tm=document.getElementById("thx");if(tm)tm.className=""}
+ else if(a==="thxW"){c=cust(thxE.cid);open(waUrl(c,entryMsg(thxE)))}
+ else if(a==="thxS"){c=cust(thxE.cid);open(smsUrl(c,entryMsg(thxE)))}
+ else if(a==="delE"){if(confirm("یہ اندراج حذف کریں؟")){S.entries=S.entries.filter(function(e){return e.id!==id});save();render()}}
+ else if(a==="sendE"){var e=S.entries.filter(function(x){return x.id===id})[0];c=cust(e.cid);open(waUrl(c,entryMsg(e)))}
+ else if(a==="prE"){prE(S.entries.filter(function(x){return x.id===id})[0])}
+ else if(a==="prD"){prD()}
+ else if(a==="prC"){prC(cust(id))}
+ else if(a==="addC"){var nm=document.getElementById("cn").value.trim();if(!nm)return;S.customers.push({id:uid(),name:nm,phone:document.getElementById("cp").value.trim(),last:0});save();render()}
+ else if(a==="open"){sel=id;render()}
+ else if(a==="back"){sel=null;render()}
+ else if(a==="delC"){if(confirm("کسٹمر اور اس کا سارا کھاتہ حذف کریں؟")){S.customers=S.customers.filter(function(x){return x.id!==id});S.entries=S.entries.filter(function(x){return x.cid!==id});sel=null;save();render()}}
+ else if(a==="wa"||a==="sms"){c=cust(id);c.last=Date.now();save();open(a==="wa"?waUrl(c,msg(c)):smsUrl(c,msg(c)));render()}
+ else if(a==="saveS"){S.shop=document.getElementById("sh").value.trim()||S.shop;S.tpl=document.getElementById("tp").value;S.days=Math.max(1,parseInt(document.getElementById("dy").value)||7);S.ep=document.getElementById("epn").value.trim();S.epOn=document.getElementById("epon").checked;save();render()}
+ else if(a==="startQ"){queue=S.customers.filter(function(x){return isDue(x)&&x.phone}).map(function(x){return x.id});qi=0;qShow()}
+ else if(a==="qSend"){c=cust(queue[qi]);c.last=Date.now();save();open(waUrl(c,msg(c)));qi++;qShow()}
+ else if(a==="qSkip"){qi++;qShow()}
+ else if(a==="dPrev"){date=shiftD(date,-1);render()}
+ else if(a==="dNext"){date=shiftD(date,1);render()}
+ else if(a==="dToday"){date=today();render()}
+ else if(a==="mPrev"){mon=shiftM(mon,-1);render()}
+ else if(a==="mNext"){mon=shiftM(mon,1);render()}
+ else if(a==="prM"){prM()}
+ else if(a==="pick"){pickContacts()}
+ else if(a==="vcf"){document.getElementById("vf").click()}
+ else if(a==="inst"){inst()}
+ else if(a==="cpl"){var L2="https://claude.ai/artifact/KL1MEBEmeizW2SiA1dLxcw",cm=document.getElementById("cpm");try{navigator.clipboard.writeText(L2).then(function(){if(cm)cm.textContent="لنک کاپی ہو گیا۔ اب کروم میں پیسٹ کر کے کھولیں۔"},function(){prompt("یہ لنک کاپی کریں:",L2)})}catch(x){prompt("یہ لنک کاپی کریں:",L2)}}
+ else if(a==="addCat"){var nc=document.getElementById("nc").value.trim();if(nc&&S.cats.indexOf(nc)<0){S.cats.push(nc);save()}render()}
+ else if(a==="delCat"){if(confirm("یہ شعبہ فہرست سے ہٹا دیں؟ پرانے اندراجات میں اس کا نام محفوظ رہے گا۔")){S.cats.splice(+id,1);save();render()}}
+ else if(a==="bk"){backup()}
+ else if(a==="csv"){csvx()}
+ else if(a==="rs"){document.getElementById("rf").click()}
+ else if(a==="bulk"){var out=[];document.getElementById("bt").value.split(/\n/).forEach(function(l){var m=l.match(/(\+?\d[\d\s\-]{8,}\d)/);if(m){out.push({name:l.replace(m[0],"").replace(/[,،:;\-]+/g," ").trim(),phone:m[1].trim()})}});addPicked(out)}
+});
+document.addEventListener("change",function(ev){
+ if(ev.target.dataset&&ev.target.dataset.ce){var x=S.entries.filter(function(z){return z.id===ev.target.dataset.ce})[0];if(x){x.cat=ev.target.value;save();render()}return}
+ if(ev.target.hasAttribute&&ev.target.hasAttribute("data-dp")){var yy=+document.getElementById("py").value,mo2=+document.getElementById("pm").value,dd=+document.getElementById("pd").value,ml=new Date(yy,mo2,0).getDate();if(dd>ml)dd=ml;date=yy+"-"+p2(mo2)+"-"+p2(dd);render();return}
+ if(ev.target.id==="mm"||ev.target.id==="my"){mon=document.getElementById("my").value+"-"+p2(document.getElementById("mm").value);render();return}
+ if(ev.target.id==="rf"){var g=ev.target.files&&ev.target.files[0];if(g)readBk(g);ev.target.value=""}
+ if(ev.target.id==="vf"){var f=ev.target.files&&ev.target.files[0];if(f)readVcf(f);ev.target.value=""}
+ if(ev.target.id==="t"){var s=ev.target.value==="credit"||ev.target.value==="pay";document.getElementById("cw").classList.toggle("hide",!s);var cw2=document.getElementById("catw");if(cw2)cw2.classList.toggle("hide",!(ev.target.value==="in"||ev.target.value==="credit"));var iw=document.getElementById("itw");if(iw)iw.classList.toggle("hide",ev.target.value==="pay")}
+});
+var dp=null,ib=document.getElementById("inst"),ih=document.getElementById("ihelp");
+if((window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone){ib.classList.add("hide")}
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e});
+window.addEventListener("appinstalled",function(){ib.classList.add("hide")});
+function inst(){
+ if(dp){dp.prompt();dp=null;return}
+ var pre="",L="https://claude.ai/artifact/KL1MEBEmeizW2SiA1dLxcw",emb=false;try{emb=window.top!==window.self}catch(x){emb=true}
+ if(emb){pre='<div style="margin-bottom:8px"><b>اہم:</b> انسٹال صرف براؤزر (اینڈرائیڈ پر کروم، آئی فون پر سفاری) سے ہوتا ہے، claude.ai ایپ کے اندر سے نہیں۔ پہلے نیچے کا بٹن دبا کر براؤزر میں کھولیں۔<div class="acts"><a class="btn sm" style="text-decoration:none" href="'+L+'" target="_blank" rel="noopener">🌐 براؤزر میں کھولیں</a><button class="btn alt sm" data-act="cpl">🔗 لنک کاپی کریں</button></div><span id="cpm" class="meta"></span></div><hr style="border:0;border-top:1px solid var(--line)">'}
+ var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ ih.innerHTML=ios?'<b>آئی فون / آئی پیڈ:</b> سفاری میں یہ صفحہ کھولیں، نیچے شیئر کے بٹن (چوکور میں اوپر کا تیر) پر دبائیں، پھر <b>Add to Home Screen</b> چنیں اور <b>Add</b> دبا دیں۔ نوٹ: ہوم اسکرین والی ایپ کا ڈیٹا سفاری کے ڈیٹا سے الگ ہوتا ہے، اس لیے انسٹال کے بعد نئے سرے سے اندراج کریں۔':'<b>اینڈرائیڈ:</b> کروم میں یہ صفحہ کھولیں، اوپر دائیں تین نقطوں کا مینو دبائیں اور <b>Add to Home screen</b> (یا <b>Install app</b>) چنیں، پھر <b>Add</b> دبا دیں۔ ایپ کا آئیکن موبائل کی ہوم اسکرین پر آ جائے گا۔';
+ ih.innerHTML=pre+ih.innerHTML;ih.classList.remove("hide")}
+try{var cv=document.createElement("canvas");cv.width=cv.height=180;var cx=cv.getContext("2d");cx.fillStyle="#1d4e6b";cx.fillRect(0,0,180,180);cx.fillStyle="#fff";cx.font="bold 110px sans-serif";cx.textAlign="center";cx.textBaseline="middle";cx.fillText("ح",90,95);var lk=document.createElement("link");lk.rel="apple-touch-icon";lk.href=cv.toDataURL("image/png");document.head.appendChild(lk)}catch(e){}
+render();
+})();
+</script>
+</body>
+</html>
