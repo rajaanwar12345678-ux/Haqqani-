@@ -7,6 +7,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="حقانی کھاتہ">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="description" content="حقانی کمپوزنگ اینڈ سٹیشنری کا کھاتہ — آمدن، خرچ اور بقایا جات کا حساب۔">
 <title>حقانی کمپوزنگ اینڈ سٹیشنری</title>
 <style>
 :root{--bg:#f3f5f7;--card:#fff;--ink:#16263a;--mute:#5d6b7b;--line:#dde3e9;--brand:#1d4e6b;--on-brand:#fff;--in:#1e7a52;--out:#b3402f;--due:#a8620a;--soft:#e8eff4;
@@ -98,6 +102,9 @@ input,select,textarea{border-radius:10px;padding:10px 12px;font-size:16px;min-he
 </div>
 <div id="toast" role="status"></div>
 <div id="pr"></div>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+</script>
 <script>
 (function(){
 var KEY="dukaan-khata-v1",TYPES={in:"آمد (نقد)",out:"خرچ",credit:"ادھار دیا",pay:"وصولی"};
